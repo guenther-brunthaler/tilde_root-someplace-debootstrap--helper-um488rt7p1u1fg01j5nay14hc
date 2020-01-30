@@ -1,0 +1,14 @@
+debootstrap-helper
+==================
+v2020.30
+
+This project provides a customized wrapper around Debian's
+standard "debootstrap" script which invokes it with the right
+options for complete offline operation using a two-phase approach
+based on the --foreign option of debootstrap.
+
+It also gives advice for common problems, such as missing signing
+keys.
+
+The script should also work for most Debian-derived Linux
+distribution with only small modifications.

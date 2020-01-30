@@ -4,7 +4,7 @@ trap 'test $? = 0 || echo "\"$0\" failed!" >& 2' 0
 
 exit_help() {
 	cat << '.'
-Supported phases, in order:
+Supported phases, execute then in this order:
 
 help: Display this help
 download: Download template for offline installation
@@ -16,10 +16,22 @@ purge: Delete base system since "download" phase
 
 "help" works always.
 
-Except for "download" and "help", all phases need the path of the download
-directory as their first argument.
+Except for "download" and "help", all phases need the path of the
+download directory as their first argument.
 
-Version 2019.319
+This name is the same as that of the template directory created
+by "download", but with the ".tpl"-suffix removed.
+
+If a PGP key is missing, do this:
+
+$ gpg --receive-key $HEX_KEY_ID
+$ gpg --export $HEX_KEY_ID | apt-key add -
+
+Version 2020.30
+Copyright (c) 2019-2020 Guenther Brunthaler. All rights reserved.
+
+This script is free software.
+Distribution is permitted under the terms of the GPLv3.
 .
 }
 
@@ -29,27 +41,29 @@ download)
 distro=debian
 suite=buster
 url='http://debian.inode.at/debian/'
-keyring=~/.gnupg/pubring.gpg
 pkgs=
-while read pkg
-do
-	pkgs=$pkgs${pkgs:+,}$pkg
-done <<- '----'
+{
+	while read pkg
+	do
+		pkgs=$pkgs${pkgs:+,}$pkg
+	done
+	# Following this loop comes a "here-doc" list of packages not required
+	# by debootstrap which shall still be included in the created
+	# filesystem contents. May be an empty list.
+} <<- '----'
 ----
-# Disabled:
+# Currently disabled former entries, kept here so the may be re-enabled later.
 true << '----'
 	devuan-keyring
 	sysvinit-core
 ----
-test -f "$keyring"
 out=$distro-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
 dbs=`command -v debootstrap 2> /dev/null || ./debootstrap`
 test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
-$dbs --keyring="$keyring" --variant=minbase \
-	--foreign "$suite" "$out" "$url"
+$dbs --variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit
 ;;

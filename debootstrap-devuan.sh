@@ -27,8 +27,8 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2020.30
-Copyright (c) 2019-2020 Guenther Brunthaler. All rights reserved.
+Version 2021.295
+Copyright (c) 2019-2021 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
 Distribution is permitted under the terms of the GPLv3.
@@ -38,9 +38,9 @@ Distribution is permitted under the terms of the GPLv3.
 case $1 in
 download)
 
-distro=debian
-suite=buster
-url='http://debian.inode.at/debian/'
+distro=devuan
+suite=chimaera
+url='https://pkgmaster.devuan.org/devuan/'
 pkgs=
 {
 	while read pkg
@@ -51,11 +51,12 @@ pkgs=
 	# by debootstrap which shall still be included in the created
 	# filesystem contents. May be an empty list.
 } <<- '----'
-----
-# Currently disabled former entries, kept here so the may be re-enabled later.
-true << '----'
 	devuan-keyring
 	sysvinit-core
+----
+# Currently disabled former entries from above HERE-DOC, kept here so the may
+# be re-enabled later by moving them back.
+true << '----'
 ----
 out=$distro-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit

@@ -1,0 +1,9 @@
+https://www.devuan.org/os/keyring
+
+https://pkgmaster.devuan.org/devuan/pool/main/d/devuan-keyring/devuan-keyring_2017.10.03_all.deb
+
+Devuan releases are signed by:
+
+Devuan Repository (Amprolla3 on Nemesis) <repository@devuan.org>
+
+The key is available from the public keyserver keys.gnupg.net. The fingerprint for verification is E032 601B 7CA1 0BC3 EA53 FA81 BB23 C00C 61FC 752C.

@@ -27,7 +27,7 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2021.295
+Version 2021.295.1
 Copyright (c) 2019-2021 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
@@ -40,7 +40,7 @@ download)
 
 distro=devuan
 suite=chimaera
-url='https://pkgmaster.devuan.org/devuan/'
+url=https://pkgmaster.devuan.org/merged/
 pkgs=
 {
 	while read pkg
@@ -60,11 +60,13 @@ true << '----'
 ----
 out=$distro-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
-dbs=`command -v debootstrap 2> /dev/null || ./debootstrap`
+# $ git clone https://git.devuan.org/devuan/debootstrap
+dbs=debootstrap/debootstrap
 test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
-$dbs --variant=minbase --foreign "$suite" "$out" "$url"
+DEBOOTSTRAP_DIR=$PWD/debootstrap $dbs \
+	--variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit
 ;;

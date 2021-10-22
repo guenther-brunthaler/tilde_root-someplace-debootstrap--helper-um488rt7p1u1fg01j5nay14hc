@@ -35,6 +35,18 @@ Distribution is permitted under the terms of the GPLv3.
 .
 }
 
+arch=
+while getopts a: opt
+do
+	case $opt in
+		a) arch=$OPTARG;;
+		*) false || exit
+	esac
+done
+shift `expr $OPTIND - 1 || :`
+
+test "$arch"
+
 case $1 in
 download)
 
@@ -58,7 +70,7 @@ pkgs=
 # be re-enabled later by moving them back.
 true << '----'
 ----
-out=$distro-`date +%Y%m%d`.tpl
+out=$distro-$arch-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
 # $ git clone https://git.devuan.org/devuan/debootstrap
 dbs=debootstrap/debootstrap
@@ -66,7 +78,7 @@ test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
 DEBOOTSTRAP_DIR=$PWD/debootstrap $dbs \
-	--variant=minbase --foreign "$suite" "$out" "$url"
+	--arch="$arch" --variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit
 ;;
@@ -87,6 +99,7 @@ test -d "$1".tpl
 test ! -e "$1"
 cp -r -- "$1".tpl "$1"
 DEBOOTSTRAP_DIR=$1/debootstrap "$1"/debootstrap/debootstrap \
+	--arch="$arch" \
 	--second-stage --second-stage-target "`readlink -f -- "$1"`"
 ;;
 

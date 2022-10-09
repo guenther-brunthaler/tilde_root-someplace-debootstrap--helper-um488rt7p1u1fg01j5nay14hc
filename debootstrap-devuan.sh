@@ -27,8 +27,8 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2021.295.1
-Copyright (c) 2019-2021 Guenther Brunthaler. All rights reserved.
+Version 2022.282
+Copyright (c) 2019-2022 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
 Distribution is permitted under the terms of the GPLv3.
@@ -72,12 +72,12 @@ true << '----'
 ----
 out=$distro-$arch-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
-# $ git clone https://git.devuan.org/devuan/debootstrap
-dbs=debootstrap/debootstrap
+# See .gitmodules:
+dbs=debootstrap-devuan/debootstrap
 test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
-DEBOOTSTRAP_DIR=$PWD/debootstrap $dbs \
+DEBOOTSTRAP_DIR=$PWD/debootstrap-devuan $dbs \
 	--arch="$arch" --variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit

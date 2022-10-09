@@ -27,7 +27,7 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2022.282
+Version 2022.282.1
 Copyright (c) 2019-2022 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
@@ -72,12 +72,12 @@ true << '----'
 ----
 out=$distro-$arch-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
-# $ git clone --depth=1 https://salsa.debian.org/installer-team/debootstrap.git
-dbs=debootstrap/debootstrap
+# See .gitmodules:
+dbs=debootstrap-debian/debootstrap
 test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
-DEBOOTSTRAP_DIR=$PWD/debootstrap $dbs \
+DEBOOTSTRAP_DIR=$PWD/debootstrap-debian $dbs \
 	--arch="$arch" --variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit

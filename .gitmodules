@@ -1,3 +1,6 @@
-[submodule "debootstrap"]
-	path = debootstrap
+[submodule "debootstrap-debian"]
+	path = debootstrap-debian
+	url = https://salsa.debian.org/installer-team/debootstrap.git
+[submodule "debootstrap-devuan"]
+	path = debootstrap-devuan
 	url = https://git.devuan.org/devuan/debootstrap

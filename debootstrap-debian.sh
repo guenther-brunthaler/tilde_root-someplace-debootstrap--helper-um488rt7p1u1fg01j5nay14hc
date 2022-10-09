@@ -52,7 +52,7 @@ case $1 in
 download)
 
 suite=bullseye
-url='http://debian.inode.at/debian/'
+url='http://debian.intergenia.de/debian/'
 pkgs=
 {
 	while read pkg

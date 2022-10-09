@@ -27,7 +27,7 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2022.282.1
+Version 2022.282.2
 Copyright (c) 2019-2022 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
@@ -47,10 +47,10 @@ shift `expr $OPTIND - 1 || :`
 
 test "$arch"
 
+distro=debian
 case $1 in
 download)
 
-distro=debian
 suite=bullseye
 url='http://debian.inode.at/debian/'
 pkgs=
@@ -73,11 +73,11 @@ true << '----'
 out=$distro-$arch-`date +%Y%m%d`.tpl
 test ! -e "$out" || exit
 # See .gitmodules:
-dbs=debootstrap-debian/debootstrap
+dbs=debootstrap-$distro/debootstrap
 test -f "$dbs"
 test -x "$dbs" || dbs="sh '$dbs'"
 #	--include="$pkgs" --foreign "$suite" "$out" "$url"
-DEBOOTSTRAP_DIR=$PWD/debootstrap-debian $dbs \
+DEBOOTSTRAP_DIR=$PWD/debootstrap-$distro $dbs \
 	--arch="$arch" --variant=minbase --foreign "$suite" "$out" "$url"
 echo "*** CREATED $out"
 exit
@@ -98,7 +98,7 @@ create)
 test -d "$1".tpl
 test ! -e "$1"
 cp -r -- "$1".tpl "$1"
-DEBOOTSTRAP_DIR=$1/debootstrap "$1"/debootstrap/debootstrap \
+DEBOOTSTRAP_DIR=$1/debootstrap-$distro "$1"/debootstrap-$distro/debootstrap \
 	--arch="$arch" \
 	--second-stage --second-stage-target "`readlink -f -- "$1"`"
 ;;

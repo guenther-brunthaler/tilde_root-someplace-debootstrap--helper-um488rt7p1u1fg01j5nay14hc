@@ -98,7 +98,7 @@ create)
 test -d "$1".tpl
 test ! -e "$1"
 cp -r -- "$1".tpl "$1"
-DEBOOTSTRAP_DIR=$1/debootstrap-$distro "$1"/debootstrap-$distro/debootstrap \
+DEBOOTSTRAP_DIR=$1/debootstrap "$1"/debootstrap/debootstrap \
 	--arch="$arch" \
 	--second-stage --second-stage-target "`readlink -f -- "$1"`"
 ;;

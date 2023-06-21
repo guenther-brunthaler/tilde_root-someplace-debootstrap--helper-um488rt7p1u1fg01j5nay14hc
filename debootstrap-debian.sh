@@ -17,7 +17,7 @@ purge: Delete base system since "download" phase
 "help" works always.
 
 Except for "download" and "help", all phases need the path of the
-download directory as their first argument.
+download directory as their first argument (before the command).
 
 This name is the same as that of the template directory created
 by "download", but with the ".tpl"-suffix removed.
@@ -27,8 +27,8 @@ If a PGP key is missing, do this:
 $ gpg --receive-key $HEX_KEY_ID
 $ gpg --export $HEX_KEY_ID | apt-key add -
 
-Version 2022.282.2
-Copyright (c) 2019-2022 Guenther Brunthaler. All rights reserved.
+Version 2023.80
+Copyright (c) 2019-2023 Guenther Brunthaler. All rights reserved.
 
 This script is free software.
 Distribution is permitted under the terms of the GPLv3.
